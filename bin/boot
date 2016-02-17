@@ -53,7 +53,7 @@ confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
 # publish the service to etcd using the injected HOST and EXTERNAL_PORT
 if [[ ! -z $EXTERNAL_PORT ]]; then
   # configure service discovery
-  PORT=${PORT:-80}
+  PORT=${PORT:-8000}
   PROTO=${PROTO:-tcp}
 
   set +e

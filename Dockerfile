@@ -27,3 +27,4 @@ RUN cd /app && \
 	rm -rf conf/config.inc.php-dist CREDITS DEVELOPERS FAQ HISTORY INSTALL TODO TRANSLATORS
 
 CMD ["/app/bin/boot"]
+EXPOSE 8000
