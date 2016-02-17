@@ -25,4 +25,4 @@ RUN mkdir -p /data/http && \
 
 ADD data /data
 
-CMD ["/app/bin/boot"]
+CMD ["/data/bin/boot"]
