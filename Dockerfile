@@ -1,10 +1,10 @@
-FROM maxexcloo/nginx-php:latest
+FROM alpine:3.1
 MAINTAINER Cloud Mario <smcz@qq.com>
 
-RUN apt-get update && \
-	apt-get upgrade -y && \
-	apt-get install -y curl net-tools && \
-	apt-get clean
+# install common packages
+RUN apk add --update-cache curl bash sudo php && \
+	rm -rf /var/cache/apk/*
+
 
 # install etcdctl
 RUN curl -sSL -o /usr/local/bin/etcdctl http://sinacloud.net/hehe/etcd/etcdctl-v0.4.9 \
@@ -18,13 +18,14 @@ RUN curl -sSL -o /usr/local/bin/confd http://sinacloud.net/hehe/confd/confd-0.11
 ENV TZ "Asia/Shanghai"
 ENV VERSION 5.1
 
-RUN mkdir -p /data/http && \
-	cd /data/http && \
-	wget -O - "http://www.sourceforge.net/projects/phppgadmin/files/phpPgAdmin%20%5Bstable%5D/phpPgAdmin-${VERSION}/phpPgAdmin-${VERSION}.tar.gz/download" | tar --strip-components=1 -x -z && \
+ADD . /app
+
+RUN chmod +x /app/bin/boot
+
+RUN cd /app && \
+	wget -O - "http://sinacloud.net/hehe/phppgadmin/phpPgAdmin-${VERSION}.tar.gz" | tar -xz && \
+	mv phpPgAdmin* http && \
+	cd http && \
 	rm -rf conf/config.inc.php-dist CREDITS DEVELOPERS FAQ HISTORY INSTALL TODO TRANSLATORS
 
-ADD data /data
-
-RUN chmod +x /data/bin/boot
-
-ENTRYPOINT ["/data/bin/boot"]
+CMD ["/app/bin/boot"]
