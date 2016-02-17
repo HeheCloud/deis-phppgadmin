@@ -3,7 +3,7 @@ MAINTAINER Cloud Mario <smcz@qq.com>
 
 RUN apt-get update && \
 	apt-get upgrade -y && \
-	apt-get install -y curl && \
+	apt-get install -y curl net-tools && \
 	apt-get clean
 
 # install etcdctl
@@ -27,4 +27,4 @@ ADD data /data
 
 RUN chmod +x /data/bin/boot
 
-CMD ["/data/bin/boot"]
+ENTRYPOINT ["/data/bin/boot"]
