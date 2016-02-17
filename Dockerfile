@@ -5,15 +5,13 @@ MAINTAINER Cloud Mario <smcz@qq.com>
 RUN apk add --update-cache curl bash sudo php && \
 	rm -rf /var/cache/apk/*
 
-
 # install etcdctl
 RUN curl -sSL -o /usr/local/bin/etcdctl http://sinacloud.net/hehe/etcd/etcdctl-v0.4.9 \
-    && chmod +x /usr/local/bin/etcdctl
+	&& chmod +x /usr/local/bin/etcdctl
 
 # install confd
 RUN curl -sSL -o /usr/local/bin/confd http://sinacloud.net/hehe/confd/confd-0.11.0-linux-amd64 \
-    && chmod +x /usr/local/bin/confd
-
+	&& chmod +x /usr/local/bin/confd
 
 ENV TZ "Asia/Shanghai"
 ENV VERSION 5.1

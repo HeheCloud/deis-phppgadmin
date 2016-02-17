@@ -26,14 +26,27 @@ sleep $((ETCD_TTL+1))
 
 
 # wait for confd to run once and install initial templates
-until confd -onetime -node "$ETCD" -confdir /data --log-level error; do
+until confd -onetime -node "$ETCD" -confdir /app --log-level error; do
   echo "phppgadmin: waiting for confd to write initial templates..."
   sleep $((ETCD_TTL/2))  # sleep for half the TTL
 done
 
+# run the service in the background
+php -S 0.0.0.0:8000 -t /app/http &
+
+SERVICE_PID=$!
+
+# smart shutdown on SIGINT and SIGTERM
+function on_exit() {
+    kill -TERM $SERVICE_PID
+    wait $SERVICE_PID 2>/dev/null
+    exit 0
+}
+trap on_exit INT TERM
+
 
 # spawn confd in the background to update services based on etcd changes
-confd -node "$ETCD" -confdir /data --log-level error --interval 5 &
+confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
 
 
 

@@ -1,6 +1,6 @@
 [template]
 src   = "config.inc.php"
-dest  = "/data/http/conf/config.inc.php"
+dest  = "/app/http/conf/config.inc.php"
 uid = 70
 gid = 70
 mode  = "0644"
