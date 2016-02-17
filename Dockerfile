@@ -25,4 +25,6 @@ RUN mkdir -p /data/http && \
 
 ADD data /data
 
+RUN chmod +x /data/bin/boot
+
 CMD ["/data/bin/boot"]
