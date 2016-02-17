@@ -11,7 +11,7 @@ RUN curl -sSL -o /usr/local/bin/etcdctl http://sinacloud.net/hehe/etcd/etcdctl-v
     && chmod +x /usr/local/bin/etcdctl
 
 # install confd
-RUN curl -sSL -o /usr/local/bin/confd http://sinacloud.net/hehe/confd/confd-0.10.0-linux-amd64 \
+RUN curl -sSL -o /usr/local/bin/confd http://sinacloud.net/hehe/confd/confd-0.11.0-linux-amd64 \
     && chmod +x /usr/local/bin/confd
 
 
