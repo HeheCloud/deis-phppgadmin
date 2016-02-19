@@ -9,10 +9,13 @@ Please add any [issues](https://github.com/HeheCloud/deis-phppgadmin/issues) you
 
 ## Usage
 
-Build:
+Build && Push:
 
 ```
-$ docker build -t hehecloud/deis-phppgadmin .
+DEIS_RELEASE=v1.12.2
+docker build -t hehecloud/phppgadmin:${DEIS_RELEASE} . && \
+docker tag -f hehecloud/phppgadmin:${DEIS_RELEASE} localhost:5000/deis/phppgadmin:${DEIS_RELEASE} && \
+docker push localhost:5000/deis/phppgadmin:${DEIS_RELEASE}
 ```
 
 Install & Run
@@ -36,14 +39,14 @@ docker run -it --name phppgadmin_v2.cmd.1 \
   --rm -p 10801:8000 \
   -e EXTERNAL_PORT=10801 \
   -e HOST=<your ip address in etct cluster> \
-  hehecloud/deis-phppgadmin
+  hehecloud/phppgadmin
 
 # clean etcd info
 docker run -it --name phppgadmin_v2.cmd.1 \
   --rm -p 10801:8000 \
   -e EXTERNAL_PORT=10801 \
   -e HOST=<your ip address in etct cluster> \
-  hehecloud/deis-phppgadmin \
+  hehecloud/phppgadmin \
   /app/bin/clean
 ```
 
