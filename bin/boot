@@ -41,7 +41,7 @@ if [[ ! -z $EXTERNAL_PORT ]]; then
   set +e
   etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
   etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
-  etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_latest.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_v2.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
   set -e
 fi
 
