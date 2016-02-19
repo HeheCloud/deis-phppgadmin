@@ -21,6 +21,7 @@ Install & Run
 2. copy the `deis-phppgadmin.service` file to path: `/var/lib/deis/units/deis-phppgadmin.service`
 3. run `deisctl install phppgadmin` to install
 4. run `deisctl start phppgadmin` to start
+5. open url: `http://<your ip>:10801/` or `http://phppgadmin.<your deis endpoint>/`
 
 Stop & Uninstall
 
