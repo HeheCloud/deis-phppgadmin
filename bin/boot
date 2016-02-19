@@ -32,19 +32,8 @@ until confd -onetime -node "$ETCD" -confdir /app --log-level error; do
   sleep $((ETCD_TTL/2))  # sleep for half the TTL
 done
 
-
 # spawn confd in the background to update services based on etcd changes
 confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
-
-SERVICE_PID=$!
-
-# smart shutdown on SIGINT and SIGTERM
-function on_exit() {
-    kill -TERM $SERVICE_PID
-    wait $SERVICE_PID 2>/dev/null
-    exit 0
-}
-trap on_exit INT TERM
 
 # publish the service to etcd using the injected HOST and EXTERNAL_PORT
 if [[ ! -z $EXTERNAL_PORT ]]; then
@@ -52,7 +41,7 @@ if [[ ! -z $EXTERNAL_PORT ]]; then
   set +e
   etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
   etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
-  etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_v1.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_latest.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
   set -e
 fi
 
