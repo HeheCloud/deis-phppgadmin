@@ -16,6 +16,7 @@ $ docker build -t hehecloud/deis-phppgadmin .
 ```
 
 Install & Run
+
 1. set environment `export DEISCTL_UNITS=var/lib/deis/units`
 2. copy the `deis-phppgadmin.service` file to path: `/var/lib/deis/units/deis-phppgadmin.service`
 3. run `deisctl install phppgadmin` to install
