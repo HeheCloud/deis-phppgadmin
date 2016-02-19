@@ -13,6 +13,7 @@ set -eo pipefail
 export ETCD_PORT="${ETCD_PORT:-4001}"
 export ETCD="$HOST:$ETCD_PORT"
 export ETCD_PATH="${ETCD_PATH:-/deis/phppgadmin}"
+export ETCD_DISCOVERY_PATH="${ETCD_DISCOVERY_PATH:-/deis/services/phppgadmin}"
 export ETCD_TTL="${ETCD_TTL:-20}"
 
 # wait for etcd to be available
@@ -31,8 +32,9 @@ until confd -onetime -node "$ETCD" -confdir /app --log-level error; do
   sleep $((ETCD_TTL/2))  # sleep for half the TTL
 done
 
-# run the service in the background
-php -S 0.0.0.0:8000 -t /app/http &
+
+# spawn confd in the background to update services based on etcd changes
+confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
 
 SERVICE_PID=$!
 
@@ -44,30 +46,17 @@ function on_exit() {
 }
 trap on_exit INT TERM
 
-
-# spawn confd in the background to update services based on etcd changes
-confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
-
-
-
 # publish the service to etcd using the injected HOST and EXTERNAL_PORT
 if [[ ! -z $EXTERNAL_PORT ]]; then
   # configure service discovery
-  PORT=${PORT:-8000}
-  PROTO=${PROTO:-tcp}
-
   set +e
-
-  # while the port is listening, publish to etcd
-  while [[ ! -z $(netstat -lnt | awk "\$6 == \"LISTEN\" && \$4 ~ \".$PORT\" && \$1 ~ \"$PROTO.?\"") ]] ; do
-    etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
-    etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
-    sleep $((ETCD_TTL/2)) # sleep for half the TTL
-  done
-
-  # if the loop quits, something went wrong
-  exit 1
-
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_v1.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
+  set -e
 fi
+
+# run the service
+php -S 0.0.0.0:8000 -t /app/http
 
 wait
