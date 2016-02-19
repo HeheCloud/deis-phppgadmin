@@ -1,5 +1,58 @@
+# Deis phpPgAdmin
 
+A PostgreSQL database dashboard (phpPgAdmin) for use in the [Deis@HeheCloud](http://hehecloud.com/) open source PaaS.
 
-docker build -t hehecloud/deis-phppgadmin .
+This Docker image is based on the official
+[alpine:3.2](https://registry.hub.docker.com/_/alpine/) image.
 
-docker run -it --name phppgadmin_v2.cmd.1 --rm -p 10801:8000 -e EXTERNAL_PORT=10801 -e HOST=10.171.22.25 hehecloud/deis-phppgadmin
+Please add any [issues](https://github.com/HeheCloud/deis-phppgadmin/issues) you find with this software to the Project.
+
+## Usage
+
+Build:
+
+```
+$ docker build -t hehecloud/deis-phppgadmin .
+```
+
+Install & Run
+
+1. copy the `deis-phppgadmin.service` file to path: `/var/lib/deis/units/deis-phppgadmin.service`
+2. run `deisctl install phppgadmin` to install
+3. run `deisctl start phppgadmin` to start
+
+Stop % Uninstall
+1. run `deisctl stop phppgadmin` to stop
+2. run `deisctl uninstall phppgadmin` to uninstall
+
+Only test (in your etcd cluster):
+```
+# run
+docker run -it --name phppgadmin_v2.cmd.1 \
+  --rm -p 10801:8000 \
+  -e EXTERNAL_PORT=10801 \
+  -e HOST=<your ip address in etct cluster> \
+  hehecloud/deis-phppgadmin
+
+# clean etcd info
+docker run -it --name phppgadmin_v2.cmd.1 \
+  --rm -p 10801:8000 \
+  -e EXTERNAL_PORT=10801 \
+  -e HOST=<your ip address in etct cluster> \
+  hehecloud/deis-phppgadmin \
+  /app/bin/clean
+```
+
+## Environment Variables
+
+* **DEBUG** enables verbose output if set
+* **ETCD_PORT** sets the TCP port on which to connect to the local etcd
+  daemon (default: *4001*)
+* **ETCD_PATH** sets the etcd directory where the database announces
+  its configuration (default: */deis/database*)
+* **ETCD_PATH** sets the etcd directory where the phppgadmin announces
+  its configuration (default: */deis/phppgadmin*)
+* **ETCD_TTL** sets the time-to-live before etcd purges a configuration
+  value, in seconds (default: *10*)
+* **HOST** Host's IP address
+* **EXTERNAL_PORT** sets the TCP port on which the web server listens (default: *10801*)

@@ -1,8 +1,8 @@
-FROM alpine:3.1
+FROM alpine:3.2
 MAINTAINER Cloud Mario <smcz@qq.com>
 
 # install common packages
-RUN apk add --update-cache curl bash sudo php && \
+RUN apk add --update-cache curl bash sudo php php-pgsql php-ctype php-zlib postgresql && \
 	rm -rf /var/cache/apk/*
 
 # install etcdctl
