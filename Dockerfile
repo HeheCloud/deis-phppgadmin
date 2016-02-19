@@ -19,6 +19,7 @@ ENV VERSION 5.1
 ADD . /app
 
 RUN chmod +x /app/bin/boot
+RUN chmod +x /app/bin/clean
 
 RUN cd /app && \
 	wget -O - "http://sinacloud.net/hehe/phppgadmin/phpPgAdmin-${VERSION}.tar.gz" | tar -xz && \
