@@ -21,7 +21,7 @@ Install & Run
 2. run `deisctl install phppgadmin` to install
 3. run `deisctl start phppgadmin` to start
 
-Stop % Uninstall
+Stop & Uninstall
 1. run `deisctl stop phppgadmin` to stop
 2. run `deisctl uninstall phppgadmin` to uninstall
 
