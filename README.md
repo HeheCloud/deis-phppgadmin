@@ -16,15 +16,16 @@ $ docker build -t hehecloud/deis-phppgadmin .
 ```
 
 Install & Run
-
-1. copy the `deis-phppgadmin.service` file to path: `/var/lib/deis/units/deis-phppgadmin.service`
-2. run `deisctl install phppgadmin` to install
-3. run `deisctl start phppgadmin` to start
+1. set environment `export DEISCTL_UNITS=var/lib/deis/units`
+2. copy the `deis-phppgadmin.service` file to path: `/var/lib/deis/units/deis-phppgadmin.service`
+3. run `deisctl install phppgadmin` to install
+4. run `deisctl start phppgadmin` to start
 
 Stop & Uninstall
 
-1. run `deisctl stop phppgadmin` to stop
-2. run `deisctl uninstall phppgadmin` to uninstall
+1. set environment `export DEISCTL_UNITS=var/lib/deis/units`
+2. run `deisctl stop phppgadmin` to stop
+3. run `deisctl uninstall phppgadmin` to uninstall
 
 Only test (in your etcd cluster):
 ```
