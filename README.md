@@ -9,7 +9,7 @@ Please add any [issues](https://github.com/HeheCloud/deis-phppgadmin/issues) you
 
 ## Usage
 
-Build && Push:
+Build && Push
 
 ```
 DEIS_RELEASE=v1.12.2
@@ -63,3 +63,9 @@ docker run -it --name phppgadmin_v2.cmd.1 \
   value, in seconds (default: *10*)
 * **HOST** Host's IP address
 * **EXTERNAL_PORT** sets the TCP port on which the web server listens (default: *10801*)
+
+
+## Additional Resources
+
+* [HeheCloud](http://hehecloud.com/)
+* [Deis中文指南](http://deis.heheapp.com/)
