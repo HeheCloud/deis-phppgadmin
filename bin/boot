@@ -12,7 +12,7 @@ set -eo pipefail
 # configure etcd
 export ETCD_PORT="${ETCD_PORT:-4001}"
 export ETCD="$HOST:$ETCD_PORT"
-export ETCD_PATH="${ETCD_PATH:-/deis/phppgadmin}"
+export ETCD_PATH="${ETCD_PATH:-/hehe/services/phppgadmin}"
 export ETCD_DISCOVERY_PATH="${ETCD_DISCOVERY_PATH:-/deis/services/phppgadmin}"
 export ETCD_TTL="${ETCD_TTL:-20}"
 
