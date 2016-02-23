@@ -39,8 +39,8 @@ confd -node "$ETCD" -confdir /app --log-level error --interval 5 &
 if [[ ! -z $EXTERNAL_PORT ]]; then
   # configure service discovery
   set +e
-  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
-  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/host" "$HOST" >/dev/null
+  etcdctl --no-sync -C "$ETCD" set "$ETCD_PATH/port" "$EXTERNAL_PORT" >/dev/null
   etcdctl --no-sync -C "$ETCD" set "$ETCD_DISCOVERY_PATH/phppgadmin_v2.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
   set -e
 fi

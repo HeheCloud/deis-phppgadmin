@@ -9,8 +9,7 @@ export ETCD_PORT="${ETCD_PORT:-4001}"
 export ETCD="$HOST:$ETCD_PORT"
 export ETCD_PATH="${ETCD_PATH:-/hehe/services/phppgadmin}"
 export ETCD_DISCOVERY_PATH="${ETCD_DISCOVERY_PATH:-/deis/services/phppgadmin}"
-export ETCD_TTL="${ETCD_TTL:-20}"
 
-etcdctl --no-sync -C "$ETCD" rm "$ETCD_PATH/host" "$HOST" --ttl "$ETCD_TTL" >/dev/null
-etcdctl --no-sync -C "$ETCD" rm "$ETCD_PATH/port" "$EXTERNAL_PORT" --ttl "$ETCD_TTL" >/dev/null
-etcdctl --no-sync -C "$ETCD" rm "$ETCD_DISCOVERY_PATH/phppgadmin_v2.cmd.1" "${HOST}:${EXTERNAL_PORT}" --ttl "$ETCD_TTL" >/dev/null
+etcdctl --no-sync -C "$ETCD" rm "$ETCD_PATH/host" "$HOST" >/dev/null
+etcdctl --no-sync -C "$ETCD" rm "$ETCD_PATH/port" "$EXTERNAL_PORT" >/dev/null
+etcdctl --no-sync -C "$ETCD" rm "$ETCD_DISCOVERY_PATH/phppgadmin_v2.cmd.1" "${HOST}:${EXTERNAL_PORT}" >/dev/null
