@@ -46,6 +46,23 @@ if [[ ! -z $EXTERNAL_PORT ]]; then
 fi
 
 # run the service
-php -S 0.0.0.0:8000 -t /app/http
+php -S 0.0.0.0:8000 -t /app/http \
+  -d upload_max_filesize=$PHP_UPLOAD_MAX_FILESIZE \
+  -d post_max_size=$PHP_UPLOAD_MAX_FILESIZE \
+  -d max_input_vars=$PHP_MAX_INPUT_VARS &
+
+SERVICE_PID=$!
+
+set +e
+
+# smart shutdown on SIGINT and SIGTERM
+function on_exit() {
+  echo "Will kill SERVICE_PID:$SERVICE_PID..."
+  kill -TERM $SERVICE_PID
+  echo "Wait SERVICE_PID:$SERVICE_PID quit..."
+  wait $SERVICE_PID 2>/dev/null
+  exit 0
+}
+trap on_exit INT TERM
 
 wait

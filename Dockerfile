@@ -15,6 +15,8 @@ RUN curl -sSL -o /usr/local/bin/confd http://sinacloud.net/hehe/confd/confd-0.11
 
 ENV TZ "Asia/Shanghai"
 ENV VERSION 5.1
+ENV PHP_UPLOAD_MAX_FILESIZE=256M \
+    PHP_MAX_INPUT_VARS=4096
 
 ADD . /app
 
