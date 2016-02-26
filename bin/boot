@@ -53,6 +53,8 @@ php -S 0.0.0.0:8000 -t /app/http \
 
 SERVICE_PID=$!
 
+set +e
+
 # smart shutdown on SIGINT and SIGTERM
 function on_exit() {
   echo "Will kill SERVICE_PID:$SERVICE_PID..."
