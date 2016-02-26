@@ -1,7 +1,5 @@
 [Unit]
 Description=deis-phppgadmin
-Wants=deis-database.service
-After=deis-database.service
 
 [Service]
 EnvironmentFile=/etc/environment
